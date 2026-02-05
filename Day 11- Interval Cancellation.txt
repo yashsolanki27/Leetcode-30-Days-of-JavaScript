@@ -1,0 +1,14 @@
+var cancellable = function(fn, args, t) {
+  // Call immediately
+  fn.apply(null, args);
+
+  // Schedule repeated execution
+  const intervalId = setInterval(() => {
+    fn.apply(null, args);
+  }, t);
+
+  // Return cancel function
+  return function cancelFn() {
+    clearInterval(intervalId);
+  };
+};
