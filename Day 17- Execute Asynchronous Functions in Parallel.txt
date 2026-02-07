@@ -1,0 +1,27 @@
+function promiseAll(functions) {
+  return new Promise((resolve, reject) => {
+    const results = new Array(functions.length);
+    let completed = 0;
+    let rejected = false;
+
+    functions.forEach((fn, index) => {
+      fn()
+        .then(value => {
+          if (rejected) return;
+
+          results[index] = value;
+          completed++;
+
+          if (completed === functions.length) {
+            resolve(results);
+          }
+        })
+        .catch(error => {
+          if (rejected) return;
+
+          rejected = true;
+          reject(error);
+        });
+    });
+  });
+}
