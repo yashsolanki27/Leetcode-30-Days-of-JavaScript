@@ -1,0 +1,17 @@
+var flat = function(arr, n) {
+    function helper(currentArr, depth) {
+        let result = [];
+
+        for (let element of currentArr) {
+            if (Array.isArray(element) && depth < n) {
+                result.push(...helper(element, depth + 1));
+            } else {
+                result.push(element);
+            }
+        }
+
+        return result;
+    }
+
+    return helper(arr, 0);
+};
