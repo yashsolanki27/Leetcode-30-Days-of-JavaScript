@@ -1,0 +1,47 @@
+class EventEmitter {
+
+    constructor() {
+        this.events = {}; // eventName -> [callbacks]
+    }
+
+    subscribe(eventName, callback) {
+
+        if (!this.events[eventName]) {
+            this.events[eventName] = [];
+        }
+
+        this.events[eventName].push(callback);
+
+        return {
+            unsubscribe: () => {
+
+                const callbacks = this.events[eventName];
+
+                const index = callbacks.indexOf(callback);
+
+                if (index !== -1) {
+                    callbacks.splice(index, 1);
+                }
+
+                return undefined;
+            }
+        };
+    }
+
+    emit(eventName, args = []) {
+
+        if (!this.events[eventName]) {
+            return [];
+        }
+
+        const callbacks = this.events[eventName];
+
+        const result = [];
+
+        for (let cb of callbacks) {
+            result.push(cb(...args));
+        }
+
+        return result;
+    }
+}
