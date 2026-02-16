@@ -1,0 +1,17 @@
+class ArrayWrapper {
+
+    constructor(nums) {
+        this.nums = nums;
+    }
+
+    // called when using + operator
+    valueOf() {
+        return this.nums.reduce((sum, num) => sum + num, 0);
+    }
+
+    // called when using String()
+    toString() {
+        return `[${this.nums.join(",")}]`;
+    }
+
+}
